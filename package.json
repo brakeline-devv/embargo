@@ -2,17 +2,44 @@
   "name": "wash-guard",
   "version": "0.1.0",
   "description": "Wash-sale guard and tax-loss harvesting finder for AI trading agents. Checks a buy or sell against the IRS 61-day wash-sale window before it happens, finds unrealized losses worth harvesting, and suggests swaps that are not substantially identical. MCP server, read-only: it never places orders.",
-  "keywords": ["mcp", "model-context-protocol", "wash-sale", "tax-loss-harvesting", "irs", "capital-gains", "claude", "agent", "robinhood", "stocks"],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "wash-sale",
+    "tax-loss-harvesting",
+    "irs",
+    "capital-gains",
+    "claude",
+    "agent",
+    "robinhood",
+    "stocks"
+  ],
   "license": "MIT",
   "type": "module",
-  "engines": { "node": ">=20" },
-  "bin": { "wash-guard": "src/cli.js" },
-  "files": ["src", "README.md", "LICENSE"],
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "wash-guard": "src/cli.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "mcp": "node src/cli.js mcp",
     "test": "node --test test/engine.test.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brakeline-devv/wash-guard.git"
+  },
+  "homepage": "https://github.com/brakeline-devv/wash-guard#readme",
+  "bugs": {
+    "url": "https://github.com/brakeline-devv/wash-guard/issues"
   }
 }
