@@ -1,5 +1,7 @@
 # Embargo
 
+https://embargomcp.trade
+
 Sell a stock at a loss and buy it back within 30 days, and the IRS disallows the loss (the wash-sale rule). Embargo is an MCP server that checks every buy and sell against that 61-day window **before** your AI agent places it, and finds losses worth harvesting. Read-only: no tool can place, change or cancel an order.
 
 | tool | what it answers |
