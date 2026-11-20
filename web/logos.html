@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Embargo logo options</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#000;color:#fff;font-family:Inter,Arial;padding:48px}
+h1{font-weight:300;font-size:34px;margin:0 0 6px} p.s{color:#888;margin:0 0 36px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:#0c0c11;border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:34px 28px 26px;display:flex;flex-direction:column;align-items:center;gap:26px}
+.n{align-self:flex-start;font:600 13px 'JetBrains Mono',monospace;color:#8e95b8}
+.big{width:150px;height:150px}
+.lock{display:flex;align-items:center;gap:11px;font-weight:600;font-size:22px;letter-spacing:-.02em}
+.lock svg{width:30px;height:30px}
+.small{display:flex;gap:14px;align-items:center}
+.small svg{width:16px;height:16px}
+.small .w{background:#fff;border-radius:5px;padding:5px;color:#000}
+.d{color:#888;font-size:13.5px;text-align:center;line-height:1.5;max-width:280px}
+</style></head><body>
+<h1>Embargo logo</h1><p class="s">Pick a number. Every mark is original, one colour, and still reads at 16 px (bottom row: favicon on black and on white).</p>
+<div class="grid" id="g"></div>
+<script>
+// every mark is drawn with currentColor so it works white-on-black and black-on-white; accent = the mint "safe" dot where used
+const MINT = "#4de6bf";
+const M = {
+1: { name: "Window W", d: "A W made of two pointed spikes; the gap between them is the 61-day window.",
+  svg: `<path d="M6 12 L19 52 L32 22 L45 52 L58 12" fill="none" stroke="currentColor" stroke-width="7.5" stroke-linejoin="miter" stroke-miterlimit="10"/>` },
+2: { name: "Slice", d: "A solid circle cut by one 40° slash, like the hero spikes. The small piece is the loss you keep.",
+  svg: `<defs><mask id="m2"><rect width="64" height="64" fill="#fff"/><path d="M8 60 L62 6" stroke="#000" stroke-width="6"/></mask></defs><circle cx="32" cy="32" r="26" fill="currentColor" mask="url(#m2)"/>` },
+3: { name: "Day 31", d: "A calendar tile: 30 blocked days and one open square in the corner, the first safe day.",
+  svg: `<rect x="6" y="6" width="52" height="52" rx="13" fill="currentColor"/><rect x="36" y="36" width="15" height="15" rx="4.5" fill="#000" class="hole"/><circle cx="43.5" cy="43.5" r="3.5" fill="${MINT}"/>` },
+4: { name: "Guard bracket", d: "Two brackets holding a trade in between: the check that happens before the order.",
+  svg: `<path d="M22 8 H12 V56 H22 M42 8 H52 V56 H42" fill="none" stroke="currentColor" stroke-width="7"/><path d="M32 18 L39 32 L32 46 L25 32 Z" fill="currentColor"/>` },
+5: { name: "Shield line", d: "A single-line shield with a gap cut at 40°, open like the wash window.",
+  svg: `<path d="M41 7.4 C45.4 8.6 50 9.4 55 9.9 V29 C55 43.5 45.5 54 32 60 C18.5 54 9 43.5 9 29 V9.9 C17 9.1 24.6 7.2 31 4.5" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="36.5" cy="5.8" r="0" /><circle cx="32" cy="33" r="5" fill="${MINT}"/>` },
+6: { name: "Spikes", d: "Three blades at 40°, the hero burst reduced to one mark. Last blade is shorter: the loss you skip.",
+  svg: `<path d="M8 50 L44 14 L52 14 L16 50 Z" fill="currentColor"/><path d="M20 56 L56 20 L56 28 L28 56 Z" fill="currentColor"/><path d="M8 38 L32 14 L40 14 L16 38 Z" fill="currentColor" opacity=".45"/>` },
+};
+const g = document.getElementById("g");
+for (const [k, v] of Object.entries(M)) {
+  const s = (cls, extra = "") => `<svg ${cls ? `class="${cls}"` : ""} viewBox="0 0 64 64" ${extra}>${v.svg.replace(/id="m2"/g, `id="m2${cls}"`).replace(/url\(#m2\)/g, `url(#m2${cls})`)}</svg>`;
+  g.insertAdjacentHTML("beforeend", `<div class="card"><span class="n">${k} · ${v.name}</span>${s("big")}<div class="lock">${s("l")}Embargo</div>
+    <div class="small">${s("f1")}<span class="w">${s("f2")}</span></div><div class="d">${v.d}</div></div>`);
+}
+// on the white favicon chip, the calendar hole must be white
+document.querySelectorAll(".w .hole").forEach((h) => h.setAttribute("fill", "#fff"));
+</script></body></html>

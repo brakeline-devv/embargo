@@ -1,4 +1,4 @@
-// Washguard site: every verdict on this page comes from the real engine (web/engine = copies of src/).
+// Embargo site: every verdict on this page comes from the real engine (web/engine = copies of src/).
 import { checkSell, checkBuy, harvest, taxReport, positions } from "./engine/guard.js";
 import { DEMO } from "./engine/demo.js";
 

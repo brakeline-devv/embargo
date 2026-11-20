@@ -1,4 +1,4 @@
-"""Washguard 3D band (dark glass, Botpit-style lighting): the 61-day wash-sale window as a 3D calendar.
+"""Embargo 3D band (dark glass, Botpit-style lighting): the 61-day wash-sale window as a 3D calendar.
 7 x 9 rounded day tiles on a paper slab. Day 0 (SELL) sits in the exact centre. A red wave spreads from it to
 day -30 and +30 (the window), then the +31 tile turns green and a share cube hops from SELL onto it.
 Headless:

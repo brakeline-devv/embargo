@@ -1,22 +1,22 @@
 #!/usr/bin/env node
-// wash-guard                     → MCP server on stdio (what Claude / Cursor start)
-// wash-guard demo                → load the sample ledger
-// wash-guard import <file.csv>   → import a Robinhood activity export (or date,symbol,side,qty,price)
-// wash-guard harvest             → losses worth harvesting today
-// wash-guard sell TSLA [qty] [price] / buy TSLA <qty>  → pre-trade check
-// wash-guard report [year]       → realized gains/losses after wash sales
+// embargo                     → MCP server on stdio (what Claude / Cursor start)
+// embargo demo                → load the sample ledger
+// embargo import <file.csv>   → import a Robinhood activity export (or date,symbol,side,qty,price)
+// embargo harvest             → losses worth harvesting today
+// embargo sell TSLA [qty] [price] / buy TSLA <qty>  → pre-trade check
+// embargo report [year]       → realized gains/losses after wash sales
 const [cmd = "mcp", ...args] = process.argv.slice(2);
 const money = (x) => (x < 0 ? "-$" : "$") + Math.abs(Math.round(x)).toLocaleString("en-US");
-const HELP = `wash-guard: catch wash sales before they happen, find losses worth harvesting
+const HELP = `embargo: catch wash sales before they happen, find losses worth harvesting
 
-  wash-guard                         MCP server on stdio (add it to Claude / Cursor)
-  wash-guard demo                    load a sample ledger
-  wash-guard import trades.csv       import a Robinhood activity CSV
-  wash-guard harvest                 losses worth harvesting today
-  wash-guard sell TSLA [qty] [price] check a sale before you make it
-  wash-guard buy TSLA 10             check a buy before you make it
-  wash-guard positions               open lots, basis, unrealized
-  wash-guard report [year]           realized gains/losses after wash sales`;
+  embargo                         MCP server on stdio (add it to Claude / Cursor)
+  embargo demo                    load a sample ledger
+  embargo import trades.csv       import a Robinhood activity CSV
+  embargo harvest                 losses worth harvesting today
+  embargo sell TSLA [qty] [price] check a sale before you make it
+  embargo buy TSLA 10             check a buy before you make it
+  embargo positions               open lots, basis, unrealized
+  embargo report [year]           realized gains/losses after wash sales`;
 
 if (["-h", "--help", "help"].includes(cmd)) { console.log(HELP); process.exit(0); }
 if (cmd === "mcp") { (await import("./mcp.js")).startMcp(); }
@@ -47,4 +47,4 @@ else try {
     for (const w of r.washSales) console.log(`  wash: ${w.soldOn} ${w.symbol} loss ${money(w.loss)}, ${money(w.disallowed)} disallowed → ${w.replacedBy.map((b) => `${b.qty} ${b.symbol} ${b.date}`).join(", ")}`);
   } else { console.log(HELP); process.exit(1); }
   process.exit(0);
-} catch (e) { console.error("wash-guard: " + (e?.message || e)); process.exit(1); }
+} catch (e) { console.error("embargo: " + (e?.message || e)); process.exit(1); }

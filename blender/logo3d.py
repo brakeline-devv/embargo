@@ -1,4 +1,4 @@
-"""Washguard logo in 3D: a shield cut into three diagonal glass bands (wash window magenta, orange, safe mint).
+"""Embargo logo in 3D: a shield cut into three diagonal glass bands (wash window magenta, orange, safe mint).
 Same geometry as web/brand/mark.svg (viewBox 64, bands rotated -40 deg about the centre).
   D:/blender.exe -b -P logo3d.py -- still <out.png> [black|alpha] [size] [samples]
   D:/blender.exe -b -P logo3d.py -- spin <out_dir/> [size] [samples]      (turntable loop, 120 frames @30fps)

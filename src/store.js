@@ -1,4 +1,4 @@
-// The ledger: every buy and sell wash-guard knows about, plus settings. One JSON file in the data folder.
+// The ledger: every buy and sell embargo knows about, plus settings. One JSON file in the data folder.
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dataFile } from "./paths.js";
 import { normalize } from "./engine.js";

@@ -1,6 +1,6 @@
-# Washguard
+# Embargo
 
-Sell a stock at a loss and buy it back within 30 days, and the IRS disallows the loss (the wash-sale rule). Washguard is an MCP server that checks every buy and sell against that 61-day window **before** your AI agent places it, and finds losses worth harvesting. Read-only: no tool can place, change or cancel an order.
+Sell a stock at a loss and buy it back within 30 days, and the IRS disallows the loss (the wash-sale rule). Embargo is an MCP server that checks every buy and sell against that 61-day window **before** your AI agent places it, and finds losses worth harvesting. Read-only: no tool can place, change or cancel an order.
 
 | tool | what it answers |
 | --- | --- |
@@ -18,13 +18,13 @@ Sell a stock at a loss and buy it back within 30 days, and the IRS disallows the
 ## Install
 
 ```
-claude mcp add wash-guard -- npx -y wash-guard
+claude mcp add embargo -- npx -y embargo-mcp
 ```
 
 Cursor / Claude Desktop / any MCP client:
 
 ```json
-{ "mcpServers": { "wash-guard": { "command": "npx", "args": ["-y", "wash-guard"] } } }
+{ "mcpServers": { "embargo": { "command": "npx", "args": ["-y", "embargo-mcp"] } } }
 ```
 
 Then:
@@ -36,16 +36,16 @@ Then:
 ## CLI
 
 ```
-npx wash-guard demo                 load the sample ledger
-npx wash-guard import trades.csv    import a Robinhood activity CSV
-npx wash-guard sell TSLA 10 352     check a sale before you make it
-npx wash-guard buy TSLA 10          check a buy before you make it
-npx wash-guard harvest              losses worth harvesting today
-npx wash-guard positions            open lots, basis, unrealized
-npx wash-guard report 2026          realized gains and losses after wash sales
+npx embargo-mcp demo                 load the sample ledger
+npx embargo-mcp import trades.csv    import a Robinhood activity CSV
+npx embargo-mcp sell TSLA 10 352     check a sale before you make it
+npx embargo-mcp buy TSLA 10          check a buy before you make it
+npx embargo-mcp harvest              losses worth harvesting today
+npx embargo-mcp positions            open lots, basis, unrealized
+npx embargo-mcp report 2026          realized gains and losses after wash sales
 ```
 
-Trades are stored in a local JSON file in `~/.wash-guard` (set `WASHGUARD_HOME` to move it). Prices for open positions come from Yahoo Finance's public chart endpoint, with no API key.
+Trades are stored in a local JSON file in `~/.embargo` (set `EMBARGO_HOME` to move it). Prices for open positions come from Yahoo Finance's public chart endpoint, with no API key.
 
 ## How it decides
 

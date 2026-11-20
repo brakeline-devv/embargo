@@ -1,4 +1,4 @@
-// wash-guard MCP server (stdio). Read-only: no tool can place, change or cancel an order.
+// embargo MCP server (stdio). Read-only: no tool can place, change or cancel an order.
 // The agent calls check_sell / check_buy BEFORE it trades, and harvest_candidates to find losses worth taking.
 import { readFileSync } from "node:fs";
 import { extname } from "node:path";
@@ -78,7 +78,7 @@ export async function handle(name, a = {}) {
 }
 
 export async function startMcp() {
-  const server = new Server({ name: "wash-guard", version: "0.1.0" }, { capabilities: { tools: {} } });
+  const server = new Server({ name: "embargo", version: "0.1.0" }, { capabilities: { tools: {} } });
   server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }));
   server.setRequestHandler(CallToolRequestSchema, async (req) => {
     try { return { content: [{ type: "text", text: JSON.stringify(await handle(req.params.name, req.params.arguments || {}), null, 2) }] }; }
