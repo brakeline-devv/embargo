@@ -242,3 +242,16 @@ td { padding: 11px 10px; border-bottom: 1px solid var(--line); font-family: var(
   .isteps { grid-template-columns: 1fr; } .isteps li::after { display: none; }
 }
 @media (max-width: 680px) { .limits { margin: 90px 16px 0; padding: 22px; } }
+
+/* GitHub / npm links */
+.ico { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: #d9d9e0; transition: color .2s, background .2s; }
+.ico:hover { color: #fff; background: rgba(255,255,255,.08); }
+.ico svg { width: 18px; height: 18px; }
+.links + .ico { margin-left: 14px; }
+.srcs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.srcs a { display: inline-flex; align-items: center; gap: 9px; height: 40px; padding: 0 16px; border-radius: 99px; border: 1px solid var(--line); background: var(--card); font: 500 13.5px var(--mono); color: #dfe1f0; transition: border-color .2s; }
+.srcs a:hover { border-color: var(--blue); }
+.srcs svg { width: 16px; height: 16px; }
+.flinks { display: inline-flex; gap: 18px; }
+.flinks a { color: var(--sub); } .flinks a:hover { color: var(--ink); }
+@media (max-width: 960px) { .ico { display: none; } }
