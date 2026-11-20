@@ -255,3 +255,12 @@ td { padding: 11px 10px; border-bottom: 1px solid var(--line); font-family: var(
 .flinks { display: inline-flex; gap: 18px; }
 .flinks a { color: var(--sub); } .flinks a:hover { color: var(--ink); }
 @media (max-width: 960px) { .ico { display: none; } }
+
+/* simplified: tools as one chip row, bigger section rhythm */
+.tchips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+.tchips code { font: 500 14px var(--mono); padding: 11px 16px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); color: #c9cbe0; }
+.tchips code.hot { color: #fff; border-color: transparent; background: linear-gradient(var(--card), var(--card)) padding-box, linear-gradient(120deg, #3d6bff, #ff3db8, #ffcc42) border-box; border: 1px solid transparent; }
+.sec { padding-top: 140px; }
+.sec-head h2, .band-copy h2 { font-size: clamp(36px, 4.6vw, 64px); }
+.isteps p { font-size: 14.5px; }
+.band-copy { max-width: 760px; }

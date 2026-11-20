@@ -1,7 +1,5 @@
 // Washguard site: every verdict on this page comes from the real engine (web/engine = copies of src/).
-import { run, addDays } from "./engine/engine.js";
 import { checkSell, checkBuy, harvest, taxReport, positions } from "./engine/guard.js";
-import { GROUP_LIST } from "./engine/identical.js";
 import { DEMO } from "./engine/demo.js";
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -12,34 +10,6 @@ const sgn = (x) => (x < 0 ? "neg" : x > 0 ? "pos" : "");
 const ASOF = "2026-11-20";
 const PRICES = { COIN: 107.93, HOOD: 66.01, AMD: 450.55, PLTR: 148.65, VOO: 651.62, AMZN: 255.36, NVDA: 137.9, TSLA: 361.74, AAPL: 348.42, SPY: 709.07 };
 let strict = true;
-
-/* ---------- the rule: 61-day calendar ---------- */
-const SELL = "2026-11-01";
-const cal = $("#cal");
-for (let i = 0; i < 63; i++) {
-  const d = i - 31, el = document.createElement("div");
-  el.className = "day " + (d === 0 ? "sell" : Math.abs(d) <= 30 ? "win" : d === 31 ? "safe" : "out");
-  el.dataset.d = d; el.textContent = d === 0 ? "SELL" : (d > 0 ? "+" : "") + d;
-  el.addEventListener("click", () => { $("#day").value = d; ruleUpdate(); });
-  cal.appendChild(el);
-}
-function ruleUpdate() {
-  const d = Number($("#day").value);
-  $("#dayLbl").textContent = (d > 0 ? "+" : "") + d;
-  cal.querySelectorAll(".day").forEach((el) => el.classList.toggle("pick", Number(el.dataset.d) === d));
-  const r = run([
-    { date: "2026-08-03", symbol: "TSLA", side: "buy", qty: 10, price: 430 },
-    { date: SELL, symbol: "TSLA", side: "sell", qty: 10, price: 352 },
-    { date: addDays(SELL, d), symbol: "TSLA", side: "buy", qty: 10, price: 352 },
-  ]);
-  const s = r.sales[0], lot = r.lots[0];
-  const when = d === 0 ? "the same day" : `${Math.abs(d)} day${Math.abs(d) === 1 ? "" : "s"} ${d < 0 ? "before" : "after"} the sale`;
-  $("#ruleVerdict").innerHTML = s.disallowed > 0
-    ? `<span class="badge red">WASH SALE</span><h4>${money(s.disallowed)} of the loss is disallowed.</h4><p>Buying back ${when} is inside the window. The loss moves into the new shares: their cost becomes <b class="mono">$${lot.cost.toFixed(2)}</b> instead of $352.00, and the holding period starts on ${lot.acquired}.</p>`
-    : `<span class="badge green">CLEAN LOSS</span><h4>The ${money(-s.gain)} loss counts this year.</h4><p>Buying back ${when} is outside the 30-day window, so nothing is washed.</p>`;
-}
-$("#day").addEventListener("input", ruleUpdate);
-ruleUpdate();
 
 /* ---------- try it ---------- */
 const held = positions(DEMO, PRICES, { asOf: ASOF }).positions.map((p) => p.symbol).sort();
@@ -120,9 +90,6 @@ document.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () 
 }));
 $("#strict").addEventListener("change", (e) => { strict = e.target.checked; go(); });
 drawAsk(); go();
-
-/* ---------- identical groups ---------- */
-$("#groups").innerHTML = GROUP_LIST.map((g) => `<div class="group"><span class="lvl ${g.level}">${g.level === "identical" ? "identical" : "strict mode"}</span><p>${esc(g.why)}</p><div class="tk">${g.tickers.filter((t) => !t.includes("-")).map((t) => `<span>${t}</span>`).join("")}</div></div>`).join("");
 
 /* ---------- copy buttons ---------- */
 document.querySelectorAll(".cp").forEach((b) => b.addEventListener("click", async () => {

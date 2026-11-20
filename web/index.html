@@ -22,7 +22,7 @@
 <body>
 <header class="nav">
   <a class="brand" href="#top"><img src="brand/mark.svg" alt="">Washguard</a>
-  <nav class="links"><a href="#flow">How it works</a><a href="#rule">The rule</a><a href="#try">Try it</a><a href="#tools">Tools</a><a href="#install">Install</a></nav>
+  <nav class="links"><a href="#flow">How it works</a><a href="#try">Try it</a><a href="#install">Install</a></nav>
   <a class="ico" href="https://github.com/brakeline-devv/wash-guard" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a><a class="ico" href="https://www.npmjs.com/package/wash-guard" target="_blank" rel="noopener" aria-label="npm"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M0 0v16h16V0H0zm13 13h-2V5H8v8H3V3h10v10z"/></svg></a>
   <a class="pill" href="#install">Add to Claude</a>
 </header>
@@ -32,7 +32,7 @@
   <div class="fxbox" aria-hidden="true"></div>
   <div class="frame">
     <div class="intro">
-      <p>An MCP server that checks every buy and sell against the IRS 30-day wash-sale window <b>before</b> your AI agent places it, and finds the losses worth harvesting.</p>
+      <p>Your AI agent checks every trade against the IRS wash-sale rule <b>before</b> it places it.</p>
       <span class="meta">MCP server &middot; read-only &middot; open source</span>
     </div>
     <h1>Keep every loss<br>you take. Skip<br>the wash sale.</h1>
@@ -42,23 +42,21 @@
 
 <section class="band" aria-label="The wash-sale window in 3D">
   <div class="band-copy"><span class="eyebrow">What the engine sees</span>
-    <h2>Every sale opens a<br>61-day window.</h2>
-    <p>30 days back, 30 days forward. A buy anywhere in the glow washes the loss. Day 31 is clean.</p></div>
+    <h2>Every sale opens<br>a 61-day window.</h2></div>
   <video class="band-video" data-src="media/glass.mp4" poster="media/glass.jpg" muted loop playsinline preload="none"></video>
   <div class="band-key"><span><i class="sw hot"></i>wash window</span><span><i class="sw white"></i>the sale</span><span><i class="sw green"></i>day 31, safe</span></div>
 </section>
 
 <section class="sec" id="flow">
   <div class="sec-head reveal"><span class="eyebrow">How it works</span>
-    <h2>Your agent asks first.<br>Then it trades.</h2>
-    <p>Every step below is the real engine running in this page, on the sample year of trades. It loops through three different sales.</p></div>
+    <h2>Your agent asks first.<br>Then it trades.</h2></div>
   <div class="flow reveal" id="flowBox">
-    <div class="fnode" data-step="0"><span class="fn-k">01 · agent</span><h5>Your AI agent wants to sell</h5><div class="bubble" id="fAsk"></div></div>
+    <div class="fnode" data-step="0"><span class="fn-k">01 · agent</span><h5>Agent wants to sell</h5><div class="bubble" id="fAsk"></div></div>
     <div class="fline"><i></i></div>
-    <div class="fnode" data-step="1"><span class="fn-k">02 · tool call</span><h5>It calls Washguard</h5><pre class="fcall" id="fCall"></pre></div>
+    <div class="fnode" data-step="1"><span class="fn-k">02 · tool call</span><h5>Calls Washguard</h5><pre class="fcall" id="fCall"></pre></div>
     <div class="fline"><i></i></div>
-    <div class="fnode" data-step="2"><span class="fn-k">03 · engine</span><h5>The engine checks</h5>
-      <ul class="fchecks"><li>FIFO lots matched</li><li>61-day window scanned</li><li>identical funds checked</li><li>basis carryover worked out</li></ul></div>
+    <div class="fnode" data-step="2"><span class="fn-k">03 · engine</span><h5>Engine checks</h5>
+      <ul class="fchecks"><li>lots</li><li>61-day window</li><li>identical funds</li></ul></div>
     <div class="fline"><i></i></div>
     <div class="fnode" data-step="3"><div id="fVerdict"></div></div>
   </div>
@@ -66,29 +64,9 @@
   <div class="fdots" id="fDots"></div>
 </section>
 
-<section class="sec" id="rule">
-  <div class="sec-head reveal"><span class="eyebrow">The rule in one picture</span>
-    <h2>61 days. One sale in the middle.</h2>
-    <p>You sold 10 TSLA at a <b class="mono">$780</b> loss. Slide to pick the day you buy it back and watch the engine decide.</p></div>
-  <div class="reveal rule">
-    <div class="cal" id="cal" aria-label="61-day wash-sale window"></div>
-    <div class="rule-side">
-      <label class="slider"><span>Buy back on day <b id="dayLbl" class="mono">+16</b></span>
-        <input id="day" type="range" min="-31" max="31" value="16" step="1"></label>
-      <div class="verdict" id="ruleVerdict"></div>
-      <ul class="facts">
-        <li><b>30 days before or after.</b> A buy in the month <i>before</i> the sale counts too.</li>
-        <li><b>The loss isn't gone.</b> It moves into the cost of the new shares and comes back when you sell them.</li>
-        <li><b>Day 31 is clean.</b> Or buy something that is not substantially identical today.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <section class="sec" id="try">
-  <div class="sec-head reveal"><span class="eyebrow">Try it · the real engine, in your browser</span>
-    <h2>Ask what your agent would ask.</h2>
-    <p>A sample year of trades is loaded: a TSLA buy-back, an SPY to VOO swap, a half-sold AAPL lot, a clean PLTR loss and open positions at live prices from Nov 20, 2026.</p></div>
+  <div class="sec-head reveal"><span class="eyebrow">Try it</span>
+    <h2>Run the real engine.</h2></div>
   <div class="reveal console">
     <div class="tabs" role="tablist">
       <button class="tab on" data-tab="sell">check_sell</button><button class="tab" data-tab="buy">check_buy</button>
@@ -98,57 +76,30 @@
     <div class="panel">
       <div class="ask" id="ask"></div>
       <div class="answer" id="answer"></div>
-      <details class="raw"><summary>What the agent sees (JSON)</summary><pre id="raw"></pre></details>
+      <details class="raw"><summary>JSON</summary><pre id="raw"></pre></details>
     </div>
   </div>
 </section>
 
 <section class="sec" id="tools">
-  <div class="sec-head reveal"><span class="eyebrow">Ten tools, zero order buttons</span>
-    <h2>It checks. It never trades.</h2>
-    <p>No tool can place, change or cancel an order. Your agent asks first, then trades through whatever it already uses.</p></div>
-  <div class="reveal tools">
-    <article class="tool big"><code>check_sell</code><p>Before a sale: gain, clean loss or wash sale. For a wash, the ways out. For a loss, the date to wait before buying back.</p><span class="tag red">wash sale</span><span class="tag green">clean loss</span></article>
-    <article class="tool big"><code>check_buy</code><p>Before a buy: would it wash a loss you already took? How much, and the first safe date.</p><span class="tag red">would wash</span><span class="tag green">clear</span></article>
-    <article class="tool big"><code>harvest_candidates</code><p>Positions below cost, ranked by estimated tax saved, with swaps that keep you invested meanwhile.</p><span class="tag">ranked</span></article>
-    <article class="tool"><code>tax_report</code><p>Short and long term after wash adjustments, the $3,000 cap, carry-forward.</p></article>
-    <article class="tool"><code>list_positions</code><p>Lots, adjusted basis, unrealized, when each turns long-term.</p></article>
-    <article class="tool"><code>import_transactions</code><p>Robinhood activity CSV, or date, symbol, side, qty, price.</p></article>
-    <article class="tool"><code>record_trade</code><p>Log a fill right after it happens.</p></article>
-    <article class="tool"><code>settings</code><p>Strict mode and the tax rates used for estimates.</p></article>
-    <article class="tool"><code>explain_wash_sale</code><p>The rule in plain words and what the tool can't see.</p></article>
-    <article class="tool"><code>load_demo</code><p>The sample year from this page.</p></article>
-  </div>
-</section>
-
-<section class="sec" id="identical">
-  <div class="sec-head reveal"><span class="eyebrow">Substantially identical</span>
-    <h2>Same company, same index, same problem.</h2>
-    <p>The IRS never published a list. Same stock and share classes are settled. Funds from different issuers on the same index are a grey area, so strict mode treats them as identical.</p></div>
-  <div class="reveal groups" id="groups"></div>
+  <div class="sec-head reveal"><span class="eyebrow">10 tools</span><h2>It checks. It never trades.</h2></div>
+  <div class="reveal tchips"><code class="hot">check_sell</code><code class="hot">check_buy</code><code class="hot">harvest_candidates</code><code>tax_report</code><code>list_positions</code><code>import_transactions</code><code>record_trade</code><code>settings</code><code>explain_wash_sale</code><code>load_demo</code></div>
 </section>
 
 <section class="sec" id="install">
-  <div class="sec-head reveal"><span class="eyebrow">Install</span><h2>One line in Claude.</h2><p>Runs on your machine. Your trades stay in a local file.</p></div>
+  <div class="sec-head reveal"><span class="eyebrow">Install</span><h2>One line in Claude.</h2></div>
   <div class="reveal install">
     <div class="srcs"><a href="https://github.com/brakeline-devv/wash-guard" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg><span>brakeline-devv/wash-guard</span></a><a href="https://www.npmjs.com/package/wash-guard" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M0 0v16h16V0H0zm13 13h-2V5H8v8H3V3h10v10z"/></svg><span>npm · wash-guard</span></a></div>
     <div class="code"><span class="mono">claude mcp add wash-guard -- npx -y wash-guard</span><button class="cp" data-copy="claude mcp add wash-guard -- npx -y wash-guard">Copy</button></div>
-    <div class="code"><span class="mono">{ "mcpServers": { "wash-guard": { "command": "npx", "args": ["-y", "wash-guard"] } } }</span><button class="cp" data-copy='{ "mcpServers": { "wash-guard": { "command": "npx", "args": ["-y", "wash-guard"] } } }'>Copy</button></div>
     <ol class="isteps">
-      <li><span>1</span><b>Export</b><p>Your Robinhood account activity as CSV.</p></li>
-      <li><span>2</span><b>Import</b><p>Ask your agent: <i>"import my trades from ~/Downloads/activity.csv"</i></p></li>
-      <li><span>3</span><b>Guard</b><p>Then: <i>"before you sell anything, run check_sell"</i></p></li>
+      <li><span>1</span><b>Export</b><p>Robinhood activity CSV</p></li>
+      <li><span>2</span><b>Import</b><p><i>"import my trades"</i></p></li>
+      <li><span>3</span><b>Guard</b><p><i>"check before you sell"</i></p></li>
     </ol>
   </div>
 </section>
 
-<section class="sec limits">
-  <h3>What it can't see</h3>
-  <ul><li>Trades in other accounts: an IRA or a spouse's account can trigger the rule too.</li><li>Options on the same stock.</li><li>Dividend reinvestments you didn't import.</li><li>Shares bought in the window and sold again before the loss sale.</li></ul>
-  <p>Estimates for planning, not tax advice. Your broker's 1099-B is the official record.</p>
-</section>
-
-<footer class="foot"><a class="brand" href="#top"><img src="brand/mark.svg" alt="">Washguard</a><span class="flinks"><a href="https://github.com/brakeline-devv/wash-guard" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/wash-guard" target="_blank" rel="noopener">npm</a></span><span>Open source · MIT · Not affiliated with Robinhood or the IRS. Not tax advice.</span></footer>
+<footer class="foot"><a class="brand" href="#top"><img src="brand/mark.svg" alt="">Washguard</a><span class="flinks"><a href="https://github.com/brakeline-devv/wash-guard" target="_blank" rel="noopener">GitHub</a><a href="https://www.npmjs.com/package/wash-guard" target="_blank" rel="noopener">npm</a></span><span>MIT · Not tax advice · Not affiliated with Robinhood or the IRS</span></footer>
 <script src="fx.js"></script>
 <script type="module" src="site.js"></script>
 </body>
