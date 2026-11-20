@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Washguard · Keep the loss you took</title>
+<meta name="description" content="An MCP server that checks every buy and sell against the IRS 30-day wash-sale window before your AI agent places it, and finds losses worth harvesting. Read-only, open source.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Washguard · Keep every loss you take">
+<meta property="og:description" content="An MCP server that checks every buy and sell against the IRS wash-sale window before your AI agent places it. Read-only, open source.">
+<meta property="og:image" content="https://__SITE__/media/og.jpg">
+<meta property="og:url" content="https://__SITE__/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://__SITE__/media/og.jpg">
+<link rel="icon" href="brand/mark.svg" type="image/svg+xml">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#top"><img src="brand/mark.svg" alt="">Washguard</a>
+  <nav class="links"><a href="#flow">How it works</a><a href="#rule">The rule</a><a href="#try">Try it</a><a href="#tools">Tools</a><a href="#install">Install</a></nav>
+  <a class="pill" href="#install">Add to Claude</a>
+</header>
+
+<section class="hero" id="top">
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="fxbox" aria-hidden="true"></div>
+  <div class="frame">
+    <div class="intro">
+      <p>An MCP server that checks every buy and sell against the IRS 30-day wash-sale window <b>before</b> your AI agent places it, and finds the losses worth harvesting.</p>
+      <span class="meta">MCP server &middot; read-only &middot; open source</span>
+    </div>
+    <h1>Keep every loss<br>you take. Skip<br>the wash sale.</h1>
+    <a class="cta" href="#try"><span class="arrow"><svg viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Try the real engine</a>
+  </div>
+</section>
+
+<section class="band" aria-label="The wash-sale window in 3D">
+  <div class="band-copy"><span class="eyebrow">What the engine sees</span>
+    <h2>Every sale opens a<br>61-day window.</h2>
+    <p>30 days back, 30 days forward. A buy anywhere in the glow washes the loss. Day 31 is clean.</p></div>
+  <video class="band-video" data-src="media/glass.mp4" poster="media/glass.jpg" muted loop playsinline preload="none"></video>
+  <div class="band-key"><span><i class="sw hot"></i>wash window</span><span><i class="sw white"></i>the sale</span><span><i class="sw green"></i>day 31, safe</span></div>
+</section>
+
+<section class="sec" id="flow">
+  <div class="sec-head reveal"><span class="eyebrow">How it works</span>
+    <h2>Your agent asks first.<br>Then it trades.</h2>
+    <p>Every step below is the real engine running in this page, on the sample year of trades. It loops through three different sales.</p></div>
+  <div class="flow reveal" id="flowBox">
+    <div class="fnode" data-step="0"><span class="fn-k">01 · agent</span><h5>Your AI agent wants to sell</h5><div class="bubble" id="fAsk"></div></div>
+    <div class="fline"><i></i></div>
+    <div class="fnode" data-step="1"><span class="fn-k">02 · tool call</span><h5>It calls Washguard</h5><pre class="fcall" id="fCall"></pre></div>
+    <div class="fline"><i></i></div>
+    <div class="fnode" data-step="2"><span class="fn-k">03 · engine</span><h5>The engine checks</h5>
+      <ul class="fchecks"><li>FIFO lots matched</li><li>61-day window scanned</li><li>identical funds checked</li><li>basis carryover worked out</li></ul></div>
+    <div class="fline"><i></i></div>
+    <div class="fnode" data-step="3"><div id="fVerdict"></div></div>
+  </div>
+  <div class="fafter reveal" data-step="4" id="fAfter"></div>
+  <div class="fdots" id="fDots"></div>
+</section>
+
+<section class="sec" id="rule">
+  <div class="sec-head reveal"><span class="eyebrow">The rule in one picture</span>
+    <h2>61 days. One sale in the middle.</h2>
+    <p>You sold 10 TSLA at a <b class="mono">$780</b> loss. Slide to pick the day you buy it back and watch the engine decide.</p></div>
+  <div class="reveal rule">
+    <div class="cal" id="cal" aria-label="61-day wash-sale window"></div>
+    <div class="rule-side">
+      <label class="slider"><span>Buy back on day <b id="dayLbl" class="mono">+16</b></span>
+        <input id="day" type="range" min="-31" max="31" value="16" step="1"></label>
+      <div class="verdict" id="ruleVerdict"></div>
+      <ul class="facts">
+        <li><b>30 days before or after.</b> A buy in the month <i>before</i> the sale counts too.</li>
+        <li><b>The loss isn't gone.</b> It moves into the cost of the new shares and comes back when you sell them.</li>
+        <li><b>Day 31 is clean.</b> Or buy something that is not substantially identical today.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="try">
+  <div class="sec-head reveal"><span class="eyebrow">Try it · the real engine, in your browser</span>
+    <h2>Ask what your agent would ask.</h2>
+    <p>A sample year of trades is loaded: a TSLA buy-back, an SPY to VOO swap, a half-sold AAPL lot, a clean PLTR loss and open positions at live prices from Nov 20, 2026.</p></div>
+  <div class="reveal console">
+    <div class="tabs" role="tablist">
+      <button class="tab on" data-tab="sell">check_sell</button><button class="tab" data-tab="buy">check_buy</button>
+      <button class="tab" data-tab="harvest">harvest_candidates</button><button class="tab" data-tab="report">tax_report</button>
+      <label class="strict"><input type="checkbox" id="strict" checked><span>strict mode</span></label>
+    </div>
+    <div class="panel">
+      <div class="ask" id="ask"></div>
+      <div class="answer" id="answer"></div>
+      <details class="raw"><summary>What the agent sees (JSON)</summary><pre id="raw"></pre></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="tools">
+  <div class="sec-head reveal"><span class="eyebrow">Ten tools, zero order buttons</span>
+    <h2>It checks. It never trades.</h2>
+    <p>No tool can place, change or cancel an order. Your agent asks first, then trades through whatever it already uses.</p></div>
+  <div class="reveal tools">
+    <article class="tool big"><code>check_sell</code><p>Before a sale: gain, clean loss or wash sale. For a wash, the ways out. For a loss, the date to wait before buying back.</p><span class="tag red">wash sale</span><span class="tag green">clean loss</span></article>
+    <article class="tool big"><code>check_buy</code><p>Before a buy: would it wash a loss you already took? How much, and the first safe date.</p><span class="tag red">would wash</span><span class="tag green">clear</span></article>
+    <article class="tool big"><code>harvest_candidates</code><p>Positions below cost, ranked by estimated tax saved, with swaps that keep you invested meanwhile.</p><span class="tag">ranked</span></article>
+    <article class="tool"><code>tax_report</code><p>Short and long term after wash adjustments, the $3,000 cap, carry-forward.</p></article>
+    <article class="tool"><code>list_positions</code><p>Lots, adjusted basis, unrealized, when each turns long-term.</p></article>
+    <article class="tool"><code>import_transactions</code><p>Robinhood activity CSV, or date, symbol, side, qty, price.</p></article>
+    <article class="tool"><code>record_trade</code><p>Log a fill right after it happens.</p></article>
+    <article class="tool"><code>settings</code><p>Strict mode and the tax rates used for estimates.</p></article>
+    <article class="tool"><code>explain_wash_sale</code><p>The rule in plain words and what the tool can't see.</p></article>
+    <article class="tool"><code>load_demo</code><p>The sample year from this page.</p></article>
+  </div>
+</section>
+
+<section class="sec" id="identical">
+  <div class="sec-head reveal"><span class="eyebrow">Substantially identical</span>
+    <h2>Same company, same index, same problem.</h2>
+    <p>The IRS never published a list. Same stock and share classes are settled. Funds from different issuers on the same index are a grey area, so strict mode treats them as identical.</p></div>
+  <div class="reveal groups" id="groups"></div>
+</section>
+
+<section class="sec" id="install">
+  <div class="sec-head reveal"><span class="eyebrow">Install</span><h2>One line in Claude.</h2><p>Runs on your machine. Your trades stay in a local file.</p></div>
+  <div class="reveal install">
+    <div class="code"><span class="mono">claude mcp add wash-guard -- npx -y wash-guard</span><button class="cp" data-copy="claude mcp add wash-guard -- npx -y wash-guard">Copy</button></div>
+    <div class="code"><span class="mono">{ "mcpServers": { "wash-guard": { "command": "npx", "args": ["-y", "wash-guard"] } } }</span><button class="cp" data-copy='{ "mcpServers": { "wash-guard": { "command": "npx", "args": ["-y", "wash-guard"] } } }'>Copy</button></div>
+    <ol class="isteps">
+      <li><span>1</span><b>Export</b><p>Your Robinhood account activity as CSV.</p></li>
+      <li><span>2</span><b>Import</b><p>Ask your agent: <i>"import my trades from ~/Downloads/activity.csv"</i></p></li>
+      <li><span>3</span><b>Guard</b><p>Then: <i>"before you sell anything, run check_sell"</i></p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec limits">
+  <h3>What it can't see</h3>
+  <ul><li>Trades in other accounts: an IRA or a spouse's account can trigger the rule too.</li><li>Options on the same stock.</li><li>Dividend reinvestments you didn't import.</li><li>Shares bought in the window and sold again before the loss sale.</li></ul>
+  <p>Estimates for planning, not tax advice. Your broker's 1099-B is the official record.</p>
+</section>
+
+<footer class="foot"><a class="brand" href="#top"><img src="brand/mark.svg" alt="">Washguard</a><span>Open source · MIT · Not affiliated with Robinhood or the IRS. Not tax advice.</span></footer>
+<script src="fx.js"></script>
+<script type="module" src="site.js"></script>
+</body>
+</html>
