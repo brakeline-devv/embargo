@@ -42,11 +42,14 @@ const TABS = {
   report: { presets: [], fields: () => `<label>year<select name="year"><option>2026</option><option>2025</option></select></label>`, run: (f) => taxReport(DEMO, Number(f.year), { strict }) },
 };
 let tab = "sell", preset = 0;
+// JSON with colours: keys, strings, numbers, true/false/null
+const hiJson = (o) => esc(JSON.stringify(o, null, 2)).replace(/(&quot;(?:[^&]|&(?!quot;))*?&quot;)(\s*:)?|(-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b)|\b(true|false|null)\b/g,
+  (m, str, colon, num, lit) => str ? (colon ? `<span class="jk">${str}</span>${colon}` : `<span class="js">${str}</span>`) : num ? `<span class="jn">${num}</span>` : `<span class="jl">${lit}</span>`);
 
 function drawAsk() {
   const T = TABS[tab], v = T.presets[preset]?.v || {};
   $("#ask").innerHTML = `${T.presets.length ? `<div class="presets">${T.presets.map((p, i) => `<button class="preset${i === preset ? " on" : ""}" data-i="${i}">${esc(p.t)}<small>${esc(p.s)}</small></button>`).join("")}</div>` : ""}
-    <form class="fields" id="form">${T.fields(v)}</form><button class="run" id="go">Run ${tab === "sell" ? "check_sell" : tab === "buy" ? "check_buy" : tab === "harvest" ? "harvest_candidates" : "tax_report"}</button>`;
+    <form class="fields" id="form">${T.fields(v)}</form><button class="run" id="go" type="button" data-label="Run ${tab === "sell" ? "check_sell" : tab === "buy" ? "check_buy" : tab === "harvest" ? "harvest_candidates" : "tax_report"}">Run ${tab === "sell" ? "check_sell" : tab === "buy" ? "check_buy" : tab === "harvest" ? "harvest_candidates" : "tax_report"}</button>`;
   $("#ask").querySelectorAll(".preset").forEach((b) => b.addEventListener("click", () => { preset = Number(b.dataset.i); drawAsk(); go(); }));
   $("#go").addEventListener("click", go);
   $("#form").addEventListener("submit", (e) => { e.preventDefault(); go(); });
@@ -59,8 +62,13 @@ function go() {
   const f = Object.fromEntries(new FormData($("#form")));
   let r;
   try { r = TABS[tab].run(f); } catch (e) { $("#answer").innerHTML = `<span class="badge amber">ERROR</span><p class="msg">${esc(e.message)}</p>`; $("#raw").textContent = ""; return; }
-  $("#raw").textContent = JSON.stringify(r, null, 2);
-  $("#answer").innerHTML = tab === "harvest" ? drawHarvest(r) : tab === "report" ? drawReport(r) : drawCheck(r);
+  $("#raw").innerHTML = hiJson(r);
+  const ans = $("#answer");
+  ans.innerHTML = tab === "harvest" ? drawHarvest(r) : tab === "report" ? drawReport(r) : drawCheck(r);
+  // visible feedback on every run, even when the answer is the same as before
+  ans.classList.remove("flash"); void ans.offsetWidth; ans.classList.add("flash");
+  const btn = $("#go");
+  if (btn) { btn.classList.add("done"); btn.textContent = "Checked ✓"; clearTimeout(btn._t); btn._t = setTimeout(() => { btn.classList.remove("done"); btn.textContent = btn.dataset.label; }, 900); }
 }
 function drawCheck(r) {
   const kv = r.gain !== undefined ? `<div class="kv"><div><span>gain / loss</span><b class="${sgn(r.gain)}">${money(r.gain)}</b></div><div><span>disallowed</span><b class="${r.disallowed ? "neg" : ""}">${money(r.disallowed)}</b></div>

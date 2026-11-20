@@ -264,3 +264,21 @@ td { padding: 11px 10px; border-bottom: 1px solid var(--line); font-family: var(
 .sec-head h2, .band-copy h2 { font-size: clamp(36px, 4.6vw, 64px); }
 .isteps p { font-size: 14.5px; }
 .band-copy { max-width: 760px; }
+.run { transition: background .2s, transform .1s; }
+.run:active { transform: scale(.98); }
+.run.done { background: var(--green); color: #00281e; }
+#answer.flash { animation: flash .45s ease-out; }
+@keyframes flash { from { opacity: .25; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* JSON drawer, full width under the console */
+.raw { border-top: 1px solid var(--line); padding: 0; background: #08080c; }
+.raw summary { list-style: none; display: flex; align-items: center; gap: 12px; padding: 16px 26px; cursor: pointer; font: 500 13.5px var(--sans); color: var(--sub); transition: color .2s; }
+.raw summary::-webkit-details-marker { display: none; }
+.raw summary:hover { color: var(--ink); }
+.raw .rk { font: 600 11px var(--mono); letter-spacing: .08em; padding: 4px 8px; border-radius: 6px; background: rgba(61,107,255,.16); color: #8ea6ff; }
+.raw summary svg { width: 16px; height: 16px; margin-left: auto; transition: transform .25s; }
+.raw[open] summary svg { transform: rotate(180deg); }
+.raw pre { margin: 0 26px 22px; font-size: 12.5px; line-height: 1.65; max-height: 380px; overflow: auto; background: #050508; border: 1px solid var(--line); color: #9a9cb3; padding: 18px 20px; border-radius: 14px; }
+.raw pre::-webkit-scrollbar { width: 8px; height: 8px; } .raw pre::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 8px; }
+.jk { color: #8ea6ff; } .js { color: #ffb38a; } .jn { color: #4de6bf; } .jl { color: #ff6fae; }
+@media (max-width: 680px) { .raw summary { padding: 14px 18px; } .raw pre { margin: 0 18px 18px; } }
